@@ -1,7 +1,5 @@
 #include "main.h"
 
-
-
 void print_buffer(char buffer[], int *buff_ind);
 
 /**
@@ -9,6 +7,7 @@ void print_buffer(char buffer[], int *buff_ind);
  * @format: character string
  * Return: the number of characters printed
  */
+
 int _printf(const char *format, ...)
 {
 	int m, printed = 0, printed_chars = 0;
