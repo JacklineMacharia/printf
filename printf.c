@@ -1,53 +1,68 @@
+#include <stdarg.h>
+#include <stdio.h>
 #include "main.h"
 
 /**
- * _printf - function that produces output according to a format.
- * @format: A character string.
+ * _printf - Custom printf function
+ * @format: The format string
  *
- * Return: The number of characters printed (excluding the null
- * byte used to end output to strings).
+ * Return: The number of characters printed (excluding the null byte)
  */
-
 int _printf(const char *format, ...)
 {
-	unsigned int i, index = 0, len = 0;
-	char ch;
-	char *str;
-	va_list my_args;
+	int printed_chars = 0;
+	va_list arguments;
 
-	va_start(my_args, format);
-	if (format == NULL)
-		return (-1);
-	for (i = 0; format[i] != '\0'; i++)
+	va_start(arguments, format);
+	while (*format != '\0')
 	{
-		if (format[i] == '%')
+		if (*format == '%')
 		{
-			i++;
-			if (format[i] == 'c')
+			format++;
+			switch (*format)
 			{
-				ch = (char)(va_arg(my_args, int));
-				_putchar(ch);
-				len++;
-			}
-			else if (format[i] == 's')
-			{
-				str = va_arg(my_args, char *);
-				for (index = 0; str[index] != '\0'; index++)
-				{
-					_putchar(str[index]);
-					len++;
-				}
-			}
-			else if (format[i] == '%')
-			{
-				_putchar('%');
-				len++;
+				case 'c':
+					printed_chars += printf("%c", va_arg(arguments, int));
+					break;
+				case 's':
+					printed_chars += printf("%s", va_arg(arguments, char *));
+					break;
+				case '%':
+					printed_chars += printf("%%");
+					break;
+				case 'd':
+					printed_chars += printf("%d", va_arg(arguments, int));
+					break;
+				case 'i':
+					printed_chars += printf("%i", va_arg(arguments, int));
+					break;
+				case 'b':
+					print_binary(va_arg(arguments, unsigned int));
+					break;
+				default:
+					printed_chars += printf("%c", *format);
 			}
 		}
 		else
-		_putchar(format[i]);
-		len++;
+			printed_chars += printf("%c", *format);
+		format++;
 	}
-	va_end(my_args);
-	return (len);
+	va_end(arguments);
+	return (printed_chars);
+}
+
+/**
+ * print_binary - Print an unsigned int in binary
+ * @n: Number to print in binary
+ *
+ * Return: Chars printed
+ */
+void print_binary(unsigned int n)
+{
+	int i;
+
+	for (i = sizeof(n) * 8 - 1; i >= 0; i--)
+	{
+		putchar(n >> i & 1 ? '1' : '0');
+	}
 }
