@@ -1,51 +1,49 @@
 #include "main.h"
 /**
-  *_printf - It prints formatted output.
-  *@format: This is the input
-   *
-  *Return: The number of characters printed
-  */
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
+ */
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int i, len;
-	int (*get_ptr)(va_list, int);
+	va_list print_args;
+	char *next_str;
+	int add_chars = 0, length = 0;
 
-	va_start(args, format);
-	if (!(format))
-		return (-1);
-	i = 0;
-	len = 0;
-	while (format && format[i])
+	va_start(print_args, format);
+	if (!format)
+		exit(98);
+	while (*format)
 	{
-		if (format[i] == '%')
+		if (*format == '%')
 		{
-			i++;
-			if (format[i] == '%')
+			format++;
+			if (*format == '\0')
+				break;
+			if (*format == 'c')
 			{
-				len += _putchar(format[i]);
-				i++;
-				continue;
+				char c = va_arg(print_args, int);
+
+				write(1, &c, 1);
+				add_chars++;
 			}
-			if (format[i] == '\0')
-				return (-1);
-			get_ptr = get_print_func(format[i]);
-			if (get_ptr != NULL)
-				len = get_ptr(args, len);
-			else
+			else if (*format == '%')
+				write(1, format, (add_chars++, 1));
+			else if (*format == 's')
 			{
-				len += _putchar(format[i - 1]);
-				len += _putchar(format[i]);
+				next_str = va_arg(print_args, char *);
+				length = strlen(next_str);
+				write(1, next_str, (add_chars += length, length));
 			}
-			i++;
+			format++;
 		}
 		else
 		{
-			len += _putchar(format[i]);
-			i++;
+			write(1, format, 1);
+			add_chars++;
+			format++;
 		}
 	}
-	va_end(args);
-	return (len);
+		va_end(print_args);
+		return (add_chars);
 }
-
