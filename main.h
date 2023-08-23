@@ -5,8 +5,8 @@
 #include <stdlib.h>
 
 /**
-  *struct directives - This holds fromat specifiers and their functions.
-  *@spec: This is a char.
+  *struct directives - This holds format specifiers and their functions.
+  *@spec:a character specifier
   *@fspec: The function pointer.
   *
   */

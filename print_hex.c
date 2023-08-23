@@ -18,7 +18,7 @@ int print_hex(va_list args, int len)
 }
 
 /**
-  * print_hex - The pinted hexes
+  * print_heX - The pinted hexes
   * @args: This the argument list
   * @len: The current length of string
   *
