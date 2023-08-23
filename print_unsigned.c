@@ -8,7 +8,7 @@
   * Return: It will return the length
   */
 
-int print_unsignd(va_list args, int len)
+int print_unsigned(va_list args, int len)
 {
 	unsigned int n = va_arg(args, unsigned int);
 
